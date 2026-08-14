@@ -42,5 +42,12 @@ Maneuver Field Alpha 是一个面向移动端的 3D 机甲竞技游戏原型项�
 - [工程架构设计](docs/ARCHITECTURE.md)
 - [网络服务与客户端资源关系](docs/NETWORK_AND_ASSETS.md)
 - [2026-08-13 开发讨论记录](docs/DEV_NOTES_2026-08-13.md)
+- [机甲都市竞技参考与 Demo 规格](docs/REFERENCE_MECHA_CITY_ALPHA.md)
 - [开发协作流程](docs/DEVELOPMENT_WORKFLOW.md)
 - [开发路线图](docs/ROADMAP.md)
+
+## Playable Prototype
+
+The first browser prototype lives in [prototype/web-demo](prototype/web-demo). Open
+`prototype/web-demo/index.html` in a modern browser to test the current movement,
+aiming, shooting, boost, enemy, and arena loop.

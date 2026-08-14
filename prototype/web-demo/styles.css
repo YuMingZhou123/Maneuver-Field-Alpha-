@@ -1,0 +1,238 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background: #0b1118;
+  color: #e9f5fa;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #0b1118;
+}
+
+button { font: inherit; }
+
+.game-shell {
+  width: min(1440px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 62px;
+  margin-bottom: 12px;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: #d6f43d;
+  color: #10190c;
+  font-weight: 800;
+}
+
+h1, h2, p { margin: 0; }
+h1 { font-size: 20px; font-weight: 700; }
+h2 { font-size: 34px; font-weight: 700; }
+.eyebrow { color: #95aab8; font-size: 11px; font-weight: 700; }
+
+.icon-button,
+.action-button,
+.start-button {
+  border: 1px solid #3d5260;
+  background: #172530;
+  color: #f3fbff;
+  cursor: pointer;
+}
+
+.icon-button {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+}
+
+.game-layout {
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+  border: 1px solid #293c47;
+  background: #111c25;
+}
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #101a26;
+  touch-action: none;
+}
+
+.status-panel {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  width: 240px;
+  padding: 14px;
+  background: rgba(11, 20, 28, 0.82);
+  border: 1px solid rgba(167, 208, 225, 0.24);
+  pointer-events: none;
+}
+
+.status-block + .status-block { margin-top: 12px; }
+.status-block span, .combat-readout span { display: block; color: #9ab0bd; font-size: 10px; font-weight: 700; }
+.status-block strong { display: block; margin-top: 5px; font-size: 13px; }
+
+.meter {
+  height: 7px;
+  margin-top: 7px;
+  background: #24333b;
+}
+
+.meter i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #f15b66;
+  transition: width 100ms linear;
+}
+
+.meter.energy i { background: #d6f43d; }
+
+.combat-readout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid #314550;
+}
+
+.combat-readout strong { display: block; margin-top: 4px; font-size: 22px; }
+.objective { margin-top: 16px; color: #d8e7ec; font-size: 12px; line-height: 1.4; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 24px;
+  background: rgba(4, 9, 13, 0.7);
+  z-index: 5;
+}
+
+.overlay.visible { display: grid; }
+
+.overlay-content {
+  width: min(480px, 100%);
+  padding: 30px;
+  border: 1px solid #4b6674;
+  background: #101a23;
+  text-align: center;
+}
+
+.overlay-content h2 { margin: 12px 0; }
+.overlay-content > p:not(.eyebrow):not(.controls-hint) { color: #bed0d8; line-height: 1.55; }
+
+.start-button {
+  min-width: 150px;
+  margin-top: 22px;
+  padding: 12px 20px;
+  border-color: #d6f43d;
+  background: #d6f43d;
+  color: #14200d;
+  font-weight: 800;
+}
+
+.controls-hint { margin-top: 17px; color: #8197a3; font-size: 11px; }
+
+.touch-controls {
+  position: absolute;
+  inset: auto 18px 18px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.joystick {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border: 1px solid rgba(221, 243, 251, 0.3);
+  border-radius: 50%;
+  background: rgba(7, 16, 23, 0.45);
+  pointer-events: auto;
+}
+
+.joystick i {
+  position: absolute;
+  left: 35px;
+  top: 35px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(214, 244, 61, 0.85);
+}
+
+.touch-actions { display: flex; gap: 12px; pointer-events: auto; }
+
+.action-button {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.action-button.fire { background: rgba(231, 88, 91, 0.88); }
+.action-button.boost { background: rgba(66, 139, 181, 0.88); }
+
+@media (pointer: fine) {
+  .touch-controls { display: none; }
+}
+
+@media (max-width: 680px) {
+  .game-shell { padding: 10px; }
+  .topbar { min-height: 48px; }
+  .brand-mark { width: 34px; height: 34px; font-size: 11px; }
+  h1 { font-size: 16px; }
+  .status-panel { top: 10px; left: 10px; width: 178px; padding: 10px; }
+  .combat-readout strong { font-size: 17px; }
+  .objective { display: none; }
+  .game-layout { min-height: 0; }
+  h2 { font-size: 27px; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  body { overflow: hidden; }
+  .game-shell { padding: 8px; }
+  .topbar { min-height: 38px; margin-bottom: 6px; }
+  .brand-mark { width: 32px; height: 32px; font-size: 10px; }
+  .brand { gap: 8px; }
+  .brand .eyebrow { display: none; }
+  h1 { font-size: 14px; }
+  .icon-button { width: 34px; height: 34px; }
+  .game-layout { height: calc(100vh - 52px); min-height: 0; }
+  #gameCanvas { width: 100%; height: 100%; aspect-ratio: auto; }
+  .status-panel { top: 8px; left: 8px; width: 178px; padding: 9px; }
+  .status-block + .status-block { margin-top: 7px; }
+  .combat-readout { margin-top: 9px; padding-top: 8px; }
+  .objective { display: none; }
+  .touch-controls { inset: auto 10px 10px; }
+  .joystick { width: 86px; height: 86px; }
+  .joystick i { left: 27px; top: 27px; width: 32px; height: 32px; }
+  .action-button { width: 60px; height: 60px; font-size: 10px; }
+}
