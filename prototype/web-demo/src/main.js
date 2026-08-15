@@ -190,21 +190,19 @@ function createMech(mainColor, accent, scale = 1) {
 }
 
 function createPlayer() {
-  player.root = createMech(0xeaf9ff, 0xd8ff36, 1.18);
+  player.root = new THREE.Group();
   player.root.position.set(0, 0, 25);
   player.root.rotation.y = Math.PI;
   scene.add(player.root);
-  loadLocalPlayerModel();
+  loadPlayerModel(player.root);
 }
 
-function loadLocalPlayerModel() {
-  if (!new URLSearchParams(location.search).has("localModel")) return;
+function loadPlayerModel(root) {
   const loader = new GLTFLoader();
   loader.load(
     "local-assets/player.glb",
     (gltf) => {
-      if (!player.root) return;
-      player.root.children.forEach((child) => { child.visible = false; });
+      if (player.root !== root) return;
       const model = gltf.scene;
       model.rotation.y = Math.PI;
       model.updateMatrixWorld(true);
@@ -221,17 +219,21 @@ function loadLocalPlayerModel() {
           child.receiveShadow = true;
         }
       });
-      player.root.add(model);
-      player.root.userData.externalModel = model;
+      root.add(model);
+      root.userData.model = model;
       if (gltf.animations.length) {
         playerMixer = new THREE.AnimationMixer(model);
         playerMixer.clipAction(gltf.animations[0]).play();
       }
-      objectiveText.textContent = "LOCAL MODEL LOADED";
+      objectiveText.textContent = "PLAYER FRAME READY";
     },
     undefined,
     () => {
-      objectiveText.textContent = "LOCAL MODEL NOT FOUND - USING TEST FRAME";
+      if (player.root !== root) return;
+      const fallback = createMech(0xeaf9ff, 0xd8ff36, 1.18);
+      root.add(fallback);
+      root.userData.fallback = fallback;
+      objectiveText.textContent = "PLAYER MODEL UNAVAILABLE";
     }
   );
 }
@@ -348,8 +350,11 @@ function updatePlayer(dt) {
   player.cooldown = Math.max(0, player.cooldown - dt);
   player.energy = Math.min(100, player.energy + (player.boost > 0 ? 5 : 16) * dt);
   const stride = Math.min(1, player.velocity.length() / 11);
-  player.root.userData.limbs.rotation.x = Math.sin(clock.getElapsedTime() * 12) * 0.18 * stride;
-  player.root.userData.core.scale.setScalar(1 + Math.sin(clock.getElapsedTime() * 6) * 0.12);
+  const fallback = player.root.userData.fallback;
+  if (fallback) {
+    fallback.userData.limbs.rotation.x = Math.sin(clock.getElapsedTime() * 12) * 0.18 * stride;
+    fallback.userData.core.scale.setScalar(1 + Math.sin(clock.getElapsedTime() * 6) * 0.12);
+  }
   if (player.boost > 0 && Math.random() < 0.55) createBurst(player.root.position.clone().add(new THREE.Vector3(0, 0.3, 0)), 0xd8ff36, 1);
   if (firing) firePlayer();
 }
