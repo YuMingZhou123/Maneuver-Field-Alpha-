@@ -52,3 +52,4 @@ Thumbs.db
 # Browser demo dependencies and generated debug artifacts
 prototype/web-demo/node_modules/
 prototype/web-demo/game.js.map
+prototype/web-demo/local-assets/

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 const canvas = document.getElementById("gameCanvas");
 const overlay = document.getElementById("overlay");
@@ -43,6 +44,7 @@ let score = 0;
 let firing = false;
 let lastFire = 0;
 let cameraShake = 0;
+let playerMixer = null;
 
 const player = {
   root: null,
@@ -192,6 +194,40 @@ function createPlayer() {
   player.root.position.set(0, 0, 25);
   player.root.rotation.y = Math.PI;
   scene.add(player.root);
+  loadLocalPlayerModel();
+}
+
+function loadLocalPlayerModel() {
+  if (!new URLSearchParams(location.search).has("localModel")) return;
+  const loader = new GLTFLoader();
+  loader.load(
+    "local-assets/player.glb",
+    (gltf) => {
+      if (!player.root) return;
+      player.root.children.forEach((child) => { child.visible = false; });
+      const model = gltf.scene;
+      model.scale.setScalar(1.2);
+      model.rotation.y = Math.PI;
+      model.position.y = 0.02;
+      model.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+      player.root.add(model);
+      player.root.userData.externalModel = model;
+      if (gltf.animations.length) {
+        playerMixer = new THREE.AnimationMixer(model);
+        playerMixer.clipAction(gltf.animations[0]).play();
+      }
+      objectiveText.textContent = "LOCAL MODEL LOADED";
+    },
+    undefined,
+    () => {
+      objectiveText.textContent = "LOCAL MODEL NOT FOUND - USING TEST FRAME";
+    }
+  );
 }
 
 function spawnEnemies() {
@@ -212,6 +248,7 @@ function reset() {
   bullets.length = 0;
   effects.length = 0;
   enemies.length = 0;
+  playerMixer = null;
   if (player.root) scene.remove(player.root);
   createPlayer();
   spawnEnemies();
@@ -428,6 +465,7 @@ function update(dt) {
     objectiveText.textContent = enemies.length ? "CLEAR THE TRAINING DISTRICT" : "DISTRICT SECURED";
     updateHud();
   }
+  if (playerMixer) playerMixer.update(dt);
   updateCamera(dt);
 }
 
