@@ -221,10 +221,6 @@ function loadPlayerModel(root) {
       });
       root.add(model);
       root.userData.model = model;
-      if (gltf.animations.length) {
-        playerMixer = new THREE.AnimationMixer(model);
-        playerMixer.clipAction(gltf.animations[0]).play();
-      }
       objectiveText.textContent = "PLAYER FRAME READY";
     },
     undefined,
