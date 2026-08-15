@@ -46,8 +46,8 @@ Maneuver Field Alpha 是一个面向移动端的 3D 机甲竞技游戏原型项�
 - [开发协作流程](docs/DEVELOPMENT_WORKFLOW.md)
 - [开发路线图](docs/ROADMAP.md)
 
-## Playable Prototype
+## Playable 3D Prototype
 
-The first browser prototype lives in [prototype/web-demo](prototype/web-demo). Open
-`prototype/web-demo/index.html` in a modern browser to test the current movement,
-aiming, shooting, boost, enemy, and arena loop.
+The first browser prototype lives in [prototype/web-demo](prototype/web-demo). It
+uses Three.js to provide a stylized 3D mecha, third-person camera, procedural
+city arena, boost, combat, enemies, and a complete victory/defeat loop.

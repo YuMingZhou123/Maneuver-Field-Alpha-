@@ -49,3 +49,6 @@ Thumbs.db
 *.keystore
 *.jks
 
+# Browser demo dependencies and generated debug artifacts
+prototype/web-demo/node_modules/
+prototype/web-demo/game.js.map
