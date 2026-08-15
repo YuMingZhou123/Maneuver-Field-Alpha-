@@ -206,9 +206,15 @@ function loadLocalPlayerModel() {
       if (!player.root) return;
       player.root.children.forEach((child) => { child.visible = false; });
       const model = gltf.scene;
-      model.scale.setScalar(1.2);
       model.rotation.y = Math.PI;
-      model.position.y = 0.02;
+      model.updateMatrixWorld(true);
+      const sourceBounds = new THREE.Box3().setFromObject(model);
+      const sourceHeight = sourceBounds.getSize(new THREE.Vector3()).y;
+      // Normalize downloaded GLB assets to the same approximate height as the test frame.
+      model.scale.setScalar(4.1 / Math.max(sourceHeight, 0.01));
+      model.updateMatrixWorld(true);
+      const normalizedBounds = new THREE.Box3().setFromObject(model);
+      model.position.y -= normalizedBounds.min.y;
       model.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
