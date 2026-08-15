@@ -1,0 +1,219 @@
+:root {
+  font-family: Inter, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+  color: #f5fbff;
+  background: #080f18;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body,
+.game-app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body { background: #080f18; }
+button { font: inherit; }
+.game-app { position: relative; }
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.game-header {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(18px, env(safe-area-inset-left));
+  right: max(18px, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: #d8ff36;
+  color: #111b0a;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.brand-copy { display: grid; gap: 2px; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+.brand-copy span { color: #d0e4ef; font-size: 10px; font-weight: 800; }
+.brand-copy strong { font-size: 17px; }
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  margin-left: auto;
+  border: 1px solid rgba(220, 242, 250, 0.45);
+  background: rgba(7, 17, 25, 0.68);
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.hud {
+  position: absolute;
+  top: 84px;
+  left: max(18px, env(safe-area-inset-left));
+  width: 226px;
+  padding: 13px;
+  border-left: 3px solid #d8ff36;
+  background: rgba(7, 17, 25, 0.76);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.hud-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.hud-row span, .hud-stats span { color: #b7ccd7; font-size: 9px; font-weight: 800; }
+.hud-row strong { font-size: 12px; }
+
+.meter {
+  height: 7px;
+  margin-bottom: 11px;
+  overflow: hidden;
+  background: rgba(191, 218, 228, 0.16);
+}
+
+.meter i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #ff5d72;
+  transition: width 120ms linear;
+}
+
+.meter.energy i { background: #d8ff36; }
+.hud-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid rgba(187, 217, 229, 0.25); }
+.hud-stats strong { display: block; margin-top: 3px; font-size: 22px; }
+
+.objective {
+  position: absolute;
+  top: max(18px, env(safe-area-inset-top));
+  left: 50%;
+  padding: 8px 14px;
+  transform: translateX(-50%);
+  border-top: 2px solid #d8ff36;
+  background: rgba(7, 17, 25, 0.58);
+  color: #f3fbff;
+  font-size: 11px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.crosshair::before,
+.crosshair::after,
+.crosshair i::before,
+.crosshair i::after {
+  position: absolute;
+  content: "";
+  background: #f4ffff;
+  box-shadow: 0 0 5px rgba(216, 255, 54, 0.8);
+}
+
+.crosshair::before { top: 13px; left: 0; width: 8px; height: 2px; }
+.crosshair::after { top: 13px; right: 0; width: 8px; height: 2px; }
+.crosshair i::before { top: 0; left: 13px; width: 2px; height: 8px; }
+.crosshair i::after { bottom: 0; left: 13px; width: 2px; height: 8px; }
+
+.damage-flash { position: absolute; inset: 0; opacity: 0; background: rgba(255, 42, 74, 0.28); pointer-events: none; transition: opacity 90ms linear; }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 24px;
+  background: linear-gradient(90deg, rgba(4, 12, 20, 0.82), rgba(4, 12, 20, 0.32)), rgba(5, 13, 21, 0.38);
+  z-index: 4;
+}
+
+.overlay.visible { display: grid; }
+.overlay-copy { width: min(640px, 100%); text-align: left; }
+.overlay-copy > span { color: #d8ff36; font-size: 11px; font-weight: 900; }
+.overlay-copy h1 { margin: 12px 0 8px; font-size: 58px; line-height: 1; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.55); }
+.overlay-copy p { max-width: 560px; margin: 0; color: #d9e9f1; font-size: 15px; line-height: 1.7; }
+
+.deploy-button {
+  min-width: 170px;
+  margin-top: 22px;
+  padding: 13px 22px;
+  border: 0;
+  background: #d8ff36;
+  color: #132008;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.overlay-copy small { display: block; margin-top: 15px; color: #b2c9d4; }
+
+.touch-controls {
+  position: absolute;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: max(20px, env(safe-area-inset-left));
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.joystick { position: relative; width: 112px; height: 112px; border: 1px solid rgba(239, 252, 255, 0.4); border-radius: 50%; background: rgba(7, 17, 25, 0.42); pointer-events: auto; }
+.joystick i { position: absolute; top: 35px; left: 35px; width: 40px; height: 40px; border-radius: 50%; background: rgba(216, 255, 54, 0.9); }
+.touch-actions { display: flex; gap: 14px; pointer-events: auto; }
+
+.action-button { width: 76px; height: 76px; border: 1px solid rgba(240, 251, 255, 0.55); border-radius: 50%; color: #ffffff; font-size: 11px; font-weight: 900; touch-action: none; }
+.action-button.boost { background: rgba(39, 142, 207, 0.82); }
+.action-button.fire { background: rgba(239, 73, 92, 0.86); }
+
+@media (pointer: fine) { .touch-controls { display: none; } }
+
+@media (max-width: 680px) {
+  .brand-copy span { display: none; }
+  .brand-copy strong { font-size: 14px; }
+  .brand-mark { width: 36px; height: 36px; font-size: 10px; }
+  .icon-button { width: 36px; height: 36px; }
+  .hud { top: 64px; width: 174px; padding: 9px; }
+  .hud-stats strong { font-size: 17px; }
+  .objective { top: 10px; font-size: 9px; }
+  .overlay-copy h1 { font-size: 38px; }
+  .overlay-copy p { font-size: 13px; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .game-header { top: 8px; left: 10px; right: 10px; }
+  .brand-mark { width: 32px; height: 32px; }
+  .brand-copy span { display: none; }
+  .brand-copy strong { font-size: 13px; }
+  .icon-button { width: 32px; height: 32px; }
+  .hud { top: 48px; left: 10px; width: 166px; padding: 8px; }
+  .meter { margin-bottom: 7px; }
+  .hud-stats { padding-top: 6px; }
+  .objective { top: 8px; }
+  .joystick { width: 82px; height: 82px; }
+  .joystick i { top: 26px; left: 26px; width: 30px; height: 30px; }
+  .action-button { width: 58px; height: 58px; font-size: 9px; }
+  .overlay-copy h1 { font-size: 42px; }
+}

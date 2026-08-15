@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#73b9e6">
+    <title>Maneuver Field Alpha - 3D Demo</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="game-app">
+      <canvas id="gameCanvas" aria-label="3D mecha city combat arena"></canvas>
+
+      <header class="game-header">
+        <div class="brand-mark">MFA</div>
+        <div class="brand-copy">
+          <span>ORIGINAL 3D MECHA PROJECT</span>
+          <strong>Maneuver Field Alpha</strong>
+        </div>
+        <button id="restartButton" class="icon-button" type="button" title="Restart match" aria-label="Restart match">↻</button>
+      </header>
+
+      <section class="hud" aria-label="Combat status">
+        <div class="hud-row">
+          <span>FRAME INTEGRITY</span>
+          <strong id="healthText">100</strong>
+        </div>
+        <div class="meter"><i id="healthFill"></i></div>
+        <div class="hud-row">
+          <span>BOOST ENERGY</span>
+          <strong id="energyText">100</strong>
+        </div>
+        <div class="meter energy"><i id="energyFill"></i></div>
+        <div class="hud-stats">
+          <div><span>HOSTILES</span><strong id="enemyText">08</strong></div>
+          <div><span>ELIMINATIONS</span><strong id="scoreText">000</strong></div>
+        </div>
+      </section>
+
+      <div id="objectiveText" class="objective">CLEAR THE TRAINING DISTRICT</div>
+      <div class="crosshair" aria-hidden="true"><i></i></div>
+      <div id="damageFlash" class="damage-flash" aria-hidden="true"></div>
+
+      <section id="overlay" class="overlay visible">
+        <div class="overlay-copy">
+          <span>TRAINING DISTRICT // SECTOR 01</span>
+          <h1 id="overlayTitle">ASTRA FRAME</h1>
+          <p id="overlayMessage">进入原创三维机甲训练区。利用建筑掩体、推进冲刺和脉冲步枪，清除全部敌方无人机。</p>
+          <button id="startButton" class="deploy-button" type="button">DEPLOY</button>
+          <small>WASD 移动 · 鼠标控制镜头 · 左键射击 · Shift 冲刺</small>
+        </div>
+      </section>
+
+      <div class="touch-controls" aria-label="Touch controls">
+        <div id="joystick" class="joystick"><i id="stick"></i></div>
+        <div class="touch-actions">
+          <button id="boostButton" class="action-button boost" type="button">BOOST</button>
+          <button id="fireButton" class="action-button fire" type="button">FIRE</button>
+        </div>
+      </div>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>
